@@ -1,3 +1,9 @@
 import cors from 'cors'
+import express from 'express'
 
-app.use(cors())
+const app = express();
+// app.use(cors())
+
+app.listen(3000 ,() => {
+    console.log('App is listening on port 3000');
+}) 
