@@ -6,6 +6,8 @@ import authRoutes from './routes/auth.route.js'
 import cookieParser from 'cookie-parser'
 import userRoutes from './routes/user.route.js'
 import travelStoryRoutes from './routes/travelStory.route.js'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 dotenv.config()
 
@@ -32,6 +34,12 @@ app.use(cors({
 app.use('/api/auth' ,authRoutes)
 app.use('/api/user' ,userRoutes)
 app.use('/api/travel-story' ,travelStoryRoutes)
+
+//serve static files from the uploads and assests directory
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+app.use('/uploads' ,express.static(path.join(__dirname,"uploads")))
 
 app.listen(3000 ,() => {
     console.log('App is listening on port 3000');
