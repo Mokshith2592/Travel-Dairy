@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import authRoutes from './routes/auth.route.js'
 import cookieParser from 'cookie-parser'
 import userRoutes from './routes/user.route.js'
+import travelStoryRoutes from './routes/travelStory.route.js'
 
 dotenv.config()
 
@@ -30,6 +31,7 @@ app.use(cors({
 
 app.use('/api/auth' ,authRoutes)
 app.use('/api/user' ,userRoutes)
+app.use('/api/travel-story' ,travelStoryRoutes)
 
 app.listen(3000 ,() => {
     console.log('App is listening on port 3000');
