@@ -167,3 +167,55 @@ export const deleteTravelStory = async(req ,res ,next) => {
         next(err);
     }
 }
+
+export const updateIsFavorite = async(req ,res ,next) => {
+    const {id} = req.params;
+    const {isFavorite} = req.body;
+
+    const userId = req.user.id;
+
+    try {
+        const travelStory = await TravelStory.findOne({_id:id ,userId})
+
+        if(!travelStory){
+            return next(errorHandler(404 ,"Travel Story not found!"));
+        }
+        travelStory.isFavorite = isFavorite;
+
+        await travelStory.save();
+        res.status(200).json({
+            story:travelStory,
+            message:"Updated successfully!"
+        })
+    }
+    catch(err) {
+        next(err);
+    }
+}
+
+export const searchTravelStory = async(req ,res ,next) => {
+    const {query} = req.query
+    const userId = req.user.id
+
+    if(!query) {
+        return next(errorHandler(400 ,"Query is required!"));
+    }
+
+    try {
+        const searchResult = await TravelStory.find({
+            userId,
+            $or: [
+                {title:{$regex: query ,$options: "i"}},
+                {story:{$regex: query ,$options: "i"}},
+                {visitedLocation:{$regex: query ,$options: "i"}}
+            ]
+        }).sort({isFavorite: -1})
+
+        res.status(200).json({
+            stories:searchResult
+        })
+    }
+    catch(err) {
+        next(err)
+    }
+}

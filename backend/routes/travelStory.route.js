@@ -1,7 +1,8 @@
 import express from 'express'
 import { verifyToken } from '../utils/verifyUser.js';
-import { addTravelStory, deleteImage, deleteTravelStory, editTravelStory, getAllTravelStory, imageUpload } from '../controllers/travelStory.controller.js';
+import { addTravelStory, deleteImage, deleteTravelStory, editTravelStory, getAllTravelStory, imageUpload, searchTravelStory, updateIsFavorite } from '../controllers/travelStory.controller.js';
 import upload from '../multer.js';
+import { get } from 'mongoose';
 
 const router = express.Router()
 
@@ -11,5 +12,6 @@ router.post('/add' ,verifyToken ,addTravelStory);
 router.get("/get-all" ,verifyToken ,getAllTravelStory);
 router.post("/edit-story/:id" ,verifyToken ,editTravelStory);
 router.delete("/delete-story/:id" ,verifyToken ,deleteTravelStory)
-
+router.put("/update-is-favorite/:id" ,verifyToken ,updateIsFavorite)
+router.get("/search" ,verifyToken ,searchTravelStory);
 export default router
