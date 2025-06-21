@@ -87,7 +87,7 @@ const SignUp = () => {
                         (<button type='submit' className='btn-primary'>SIGN UP</button>)
                         }
                         <p className='text-xs text-slate-500 text-center my-4'>Or</p>
-                        <button type='submit' className='btn-primary btn-light' onClick={() => navigate('/login')}>CREATE ACCOUNT</button>
+                        <button type='submit' className='btn-primary btn-light' onClick={() => navigate('/login')}>LOGIN</button>
                     </form>
                 </div>
             </div>
