@@ -13,3 +13,14 @@ export const getUsers = async (req ,res ,next) => {
     const {password: pass ,...rest } = validUser._doc
     res.status(200).json(rest);
 }
+
+export const signout = async (req ,res ,next) => {
+    try {
+        res.clearCookie("access_token").status(200).json({
+            message: "User has been loged out successfully"
+        })
+    }
+    catch(error) {
+        next(error)
+    }
+}
