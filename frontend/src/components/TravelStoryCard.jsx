@@ -7,7 +7,7 @@ const TravelStoryCard = ({imageUrl ,title ,story ,date ,visitedLocation ,isFavor
         <div className='border border-slate-200 rounded-lg overflow-hidden bg-white hover:shadow-lg transition-all ease-in-out relative cursor-pointer'>
             <img src={imageUrl} alt="Img not found " className='w-full h-56 object-cover rounded-lg' onClick={onClick}/>
 
-            <button className="w-12 h-12 flex items-center justify-center bg-amber-400 rounded-lg border border-white/30 absolute top-4 right-4" onClick={onFavoriteClick}>
+            <button className="w-12 h-12 flex items-center justify-center bg-white/30 rounded-lg border border-white/30 absolute top-4 right-4" onClick={onFavoriteClick}>
                 <FaHeart className={`icon-btn ${isFavorite ? "text-red-500" : "text-white"} hover:text-red-500`}/>
             </button>
             
