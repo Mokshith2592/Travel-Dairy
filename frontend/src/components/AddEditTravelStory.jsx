@@ -92,8 +92,35 @@ const AddEditTravelStory = ({storyInfo ,type ,onClose ,getAllTravelStories}) => 
         }
     }
 
-    const handleDeleteStoryImage = () => {
+    const handleDeleteStoryImage = async () => {
+        //deleting the image
+        const deleteImageResponse = await axiosInstance.delete(`/travel-story/delete-image` ,{
+            params: {
+                imageUrl: storyInfo.imageUrl ,
+            }
+        })
 
+        if(deleteImageResponse.data) {
+            const storyId = storyInfo._id
+
+            let postData = {
+                title,
+                story,
+                imageUrl: "",
+                visitedLocation,
+                visitedDate: moment().valueOf()
+            }
+
+            const response = await axiosInstance.post('/travel-story/edit-story/' + storyId ,postData)
+
+            if(response.data) {
+                toast.success("Story image deleted successfully")
+
+                setStoryImg(null)
+                
+                getAllTravelStories()
+            }
+        }
     }
     
     const handleAddOrUpdateClick = () => {
