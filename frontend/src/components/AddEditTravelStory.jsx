@@ -4,6 +4,10 @@ import {MdOutlineDeleteOutline, MdOutlineUpdate} from 'react-icons/md'
 import DateSelector from './DateSelector'
 import ImageSelector from './ImageSelector'
 import TagInput from './TagInput'
+import axiosInstance from '../utils/axiosInstance'
+import moment from 'moment'
+import { ToastContainer, toast } from 'react-toastify';
+import uploadImage from '../utils/uploadImage'
 
 const AddEditTravelStory = ({storyInfo ,type ,onClose ,getAllTravelStories}) => {
     const [visitedDate ,setVisitedDate] = useState(null)
@@ -12,9 +16,60 @@ const AddEditTravelStory = ({storyInfo ,type ,onClose ,getAllTravelStories}) => 
     const [story ,setStory] = useState("");
     const [visitedLocation ,setVisitedLocation] = useState([]);
 
-    const handleDeleteStoryImage = () => {}
+    const [error ,setError] = useState("");
+
+    const addNewTravelStory = async () => {
+        try {
+            let imageUrl = "";
+            //Upload img if present
+
+            if(storyImg) {
+                const imgUploadRes = await uploadImage(storyImg);
+                imageUrl = imgUploadRes.imageUrl || ""
+            }
+            const response = await axiosInstance.post("/travel-story/add", {
+                title,
+                story,
+                imageUrl: imageUrl || "",
+                visitedDate: visitedDate ? moment(visitedDate).valueOf() : moment().valueOf(),
+                visitedLocation
+            })
+
+            if(response.data && response.data.story) {
+                toast.success("Story added successfully!")
+
+                getAllTravelStories()
+                onClose()
+            }
+
+        }
+        catch(error) {
+            console.log(error)
+        }
+    }
+    const updateTravelStory = async () => {
+
+    }
+
+    const handleDeleteStoryImage = () => {
+    }
     
-    const handleAddOrUpdateClick = () => {}
+    const handleAddOrUpdateClick = () => {
+        if(!title) {
+            setError("Please enter the title");
+        }
+        if(!story) {
+            setError("Please enter the story");
+        }
+        
+        setError("");
+        if(type === "edit") {
+            updateTravelStory();
+        }
+        else {
+            addNewTravelStory();
+        }
+    }
 
     return (
         <div>
@@ -40,6 +95,10 @@ const AddEditTravelStory = ({storyInfo ,type ,onClose ,getAllTravelStories}) => 
                             <IoMdClose className='text-xl text-slate-400 cursor-pointer hover:text-red-500'/>
                         </button>
                     </div>
+
+                    {error && (
+                        <p className='text-red-500 text-xs pt-2 text-right'>{error}</p>
+                    )}
                 </div>
             </div>
 
@@ -65,6 +124,8 @@ const AddEditTravelStory = ({storyInfo ,type ,onClose ,getAllTravelStories}) => 
                     <TagInput tags={visitedLocation} setTags={setVisitedLocation}/>
                 </div>
             </div>
+
+            <ToastContainer />
         </div>
     )
 }
