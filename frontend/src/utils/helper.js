@@ -18,4 +18,15 @@ export const getInitials = (name) => {
 
     return initials.toUpperCase();
 }
+
+export const getEmptyCardMessage = (filterType) => {
+    switch (filterType) {
+        case "search":
+            return "Opps! No notes found!"
+        case "date": 
+            return "No notes found in the given date range"
+        default:
+            "Start creating your first travel story! Click the 'Add' button to write down your thoughts, ideas and memories. Let's get started!"
+    }
+}
 export default  validateEmail
