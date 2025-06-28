@@ -227,7 +227,7 @@ export const filterTravelStories = async (req, res, next) => {
 
     const filteredStories = await TravelStory.find({
       userId,
-      visitedDate: { $gt: start, $lt: end },
+      visitedDate: { $gte: start, $lte: end },
     }).sort({ isFavorite: -1 });
 
     res.status(200).json({
